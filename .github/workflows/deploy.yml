@@ -1,0 +1,24 @@
+name: Déploiement auto sur Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloner le dépôt GitHub
+        uses: actions/checkout@v3
+
+      - name: Copier les fichiers sur Hostinger via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          port: 65002
+          source: "."
+          target: "/home/u370633571/public_html"
